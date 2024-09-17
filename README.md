@@ -1,4 +1,4 @@
-# MyChatApp
+# SignalR Live Chat
 
 A real-time chat application that allows users to send and receive messages in different chatrooms. This project is divided into two main parts:
 
