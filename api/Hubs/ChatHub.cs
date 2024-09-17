@@ -7,19 +7,6 @@ namespace MyChatApp.Hubs
     {
         private readonly string _systemSenderName = "System";
 
-        public async Task JoinChat(UserConnectionRequest request)
-        {
-            var message = new Message
-            {
-                Id = Guid.NewGuid(),
-                Username = _systemSenderName,
-                Chatroom = request.Chatroom,
-                Content = $"{request.Username} has joined the \"{request.Chatroom}\" chat.",
-                SentAt = DateTime.UtcNow
-            };
-            await Clients.Group(request.Chatroom).SendAsync("ReceivedMessage", message);
-        }
-
         public async Task JoinChatroom(UserConnectionRequest request)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, request.Chatroom);
