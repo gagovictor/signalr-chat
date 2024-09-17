@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Container } from '@mui/material';
 import Message from './Message';
 import IMessage from '../models/Message';
 

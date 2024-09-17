@@ -1,5 +1,3 @@
-'use client';
-
 import { Toolbar, Typography, Link, IconButton, Container, Box, AppBar } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';

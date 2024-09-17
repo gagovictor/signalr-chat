@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box } from '@mui/material';
 import ChatFeed from '../components/ChatFeed';
 import MessageForm from '../components/MessageForm';
@@ -11,39 +11,26 @@ import IMessage from '../models/Message';
 export default function Home() {
   const [connection, setConnection] = useState<HubConnection | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [username, setUsername] = useState<string>();
+  const [chatroom, setChatroom] = useState<string>();
 
   const joinRoom = async (username: string, chatroom: string) => {
     try {
+      setUsername(username);
+      setChatroom(chatroom);
+
       const conn = new HubConnectionBuilder()
         .withUrl('https://localhost:7092/Chat', { withCredentials: true })
         .configureLogging(LogLevel.Information)
         .withAutomaticReconnect()
         .build();
       
-      conn.on('ReceivedMessage', (username: string, message: string) => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            id: new Date().toISOString(),
-            username,
-            title: '',
-            content: message,
-            sentAt: new Date().toISOString(),
-          }
-        ]);
+      conn.on('ReceivedMessage', (message: IMessage) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
       });
       
-      conn.on('JoinChatroom', (username: string, message: string) => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            id: new Date().toISOString(),
-            username,
-            title: '',
-            content: message,
-            sentAt: new Date().toISOString(),
-          }
-        ]);
+      conn.on('JoinChatroom', (message: IMessage) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
       });
 
       await conn.start();
@@ -77,7 +64,7 @@ export default function Home() {
             }}
           >
             <ChatFeed messages={messages} />
-            <MessageForm />
+            <MessageForm username={username!} chatroom={chatroom!} connection={connection} />
           </Box>
         ) : (
           <Box

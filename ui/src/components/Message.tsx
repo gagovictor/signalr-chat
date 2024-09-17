@@ -2,13 +2,14 @@ import { FC } from 'react';
 import { Box, Typography, IconButton, Tooltip } from '@mui/material';
 import ReplyIcon from '@mui/icons-material/Reply';
 import IMessage from '../models/Message';
+import MessageIcon from '@mui/icons-material/Message';
 
 interface MessageProps {
     message: IMessage;
 }
 
 const Message: FC<MessageProps> = ({ message }) => {
-    const formattedDate = new Date(message.sentAt).toLocaleString(); // Format ISO string to local date string
+    const formattedDate = new Date(message.sentAt).toLocaleString();
 
     return (
         <Box 
@@ -18,16 +19,17 @@ const Message: FC<MessageProps> = ({ message }) => {
                 backgroundColor: '#f3f5f7', 
                 borderRadius: 1, 
                 overflow: 'hidden',
-                padding: 2,
+                paddingRight: 1,
+                paddingLeft: 2,
+                py: 1.5,
                 boxSizing: 'border-box',
                 display: 'block'
             }}
             aria-labelledby={`message-title-${message.id}`} 
             aria-describedby={`message-content-${message.id}`}
         >
-            {/* Optional Username */}
+            {/* Optional Title */}
             { message.title && (
-                    
                 <Box 
                     sx={{ 
                         display: 'flex', 
@@ -50,7 +52,7 @@ const Message: FC<MessageProps> = ({ message }) => {
             )}
 
             {/* Message Content */}
-            <Box sx={{ paddingY: 1 }}>
+            <Box>
                 <Typography 
                     variant="body1" 
                     id={`message-content-${message.id}`}
@@ -60,7 +62,6 @@ const Message: FC<MessageProps> = ({ message }) => {
                 </Typography>
             </Box>
 
-            {/* Footer with Timestamp and Reply Button */}
             <Box 
                 sx={{ 
                     display: 'flex', 
@@ -77,6 +78,7 @@ const Message: FC<MessageProps> = ({ message }) => {
                         flexDirection: 'row'
                     }}
                 >
+                    <MessageIcon color="primary" />
                     <Typography 
                         variant="caption" 
                         color="textSecondary"
@@ -88,11 +90,13 @@ const Message: FC<MessageProps> = ({ message }) => {
                         &nbsp;at {formattedDate}
                     </Typography>
                 </Box>
-                <Tooltip title="Reply to this message">
+                <Tooltip title="Not implemented at the moment.">
+                {/* <Tooltip title="Reply to this message"> */}
                     <IconButton 
                         size="small" 
                         color="primary" 
                         aria-label="Reply to this message"
+                        disabled
                     >
                         <ReplyIcon />
                     </IconButton>
